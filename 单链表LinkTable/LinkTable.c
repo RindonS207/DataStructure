@@ -24,7 +24,7 @@ typedef struct LinkTable {
 	int value;
 	LinkTable* Next;
 }LinkTable;
-/* ´´½¨Ò»¸öÃ»ÓÐÈÎºÎ³õÊ¼ÖµµÄÁ´±í */
+/* åˆ›å»ºä¸€ä¸ªæ²¡æœ‰ä»»ä½•åˆå§‹å€¼çš„é“¾è¡¨ */
 LinkTable* CreateLinkTable() {
 	LinkTable* table = (LinkTable*)malloc(sizeof(LinkTable));
 	if (table == NULL) {
@@ -34,7 +34,7 @@ LinkTable* CreateLinkTable() {
 	table->Next = NULL;
 	return table;
 }
-/* ´´½¨´øÓÐÖ¸¶¨³õÊ¼ÖµµÄÁ´±í */
+/* åˆ›å»ºå¸¦æœ‰æŒ‡å®šåˆå§‹å€¼çš„é“¾è¡¨ */
 LinkTable* CreateLinkTableWithDefault(int datas[], int dataLength) {
 	LinkTable* table=NULL,*Pointer=NULL;
 	int x;
@@ -46,7 +46,7 @@ LinkTable* CreateLinkTableWithDefault(int datas[], int dataLength) {
 		return NULL;
 	}
 	Pointer = table;
-	table->value = NULL;
+	table->value = INFININTE;
 	table->Next = NULL;
 	for (x = 0; x < dataLength; x++) {
 		LinkTable* Element = (LinkTable*)malloc(sizeof(LinkTable));
@@ -57,7 +57,7 @@ LinkTable* CreateLinkTableWithDefault(int datas[], int dataLength) {
 	}
 	return table;
 }
-/* ´òÓ¡Ò»¸öÁ´±í */
+/* æ‰“å°ä¸€ä¸ªé“¾è¡¨ */
 void PrintLinkTable(LinkTable* table) {
 	LinkTable* pointer;
 	if (table == NULL) {
@@ -68,7 +68,7 @@ void PrintLinkTable(LinkTable* table) {
 	}
 	printf("\n");
 }
-/* ÏòÁ´±íÎ²²¿Ìí¼ÓÊý¾Ý£¬·µ»ØÒ»¸ö²Ù×÷×´Ì¬ */
+/* å‘é“¾è¡¨å°¾éƒ¨æ·»åŠ æ•°æ®ï¼Œè¿”å›žä¸€ä¸ªæ“ä½œçŠ¶æ€ */
 BOOL AppendElementToLinkTable(LinkTable* table, int value)
 {
 	LinkTable* Pointer = NULL;
@@ -85,7 +85,7 @@ BOOL AppendElementToLinkTable(LinkTable* table, int value)
 	table->Next = Element;
 	return true;
 }
-/* ÏòÁ´±íÖ¸¶¨Ë÷ÒýÌí¼ÓÊý¾Ý£¬·µ»ØÒ»¸ö²Ù×÷×´Ì¬ */
+/* å‘é“¾è¡¨æŒ‡å®šç´¢å¼•æ·»åŠ æ•°æ®ï¼Œè¿”å›žä¸€ä¸ªæ“ä½œçŠ¶æ€ */
 BOOL InsertElementToLinkTable(LinkTable* table, int index, int value) {
 	int x;
 	LinkTable* Previous=table, * Next=table->Next;
@@ -105,7 +105,7 @@ BOOL InsertElementToLinkTable(LinkTable* table, int index, int value) {
 	Previous->Next = Element;
 	return true;
 }
-/* É¾³ýÁ´±íµÄµÚÒ»¸öÔªËØ£¨²»ÊÇ±íÍ·£©£¬²¢ÇÒ·µ»ØÒ»¸ö²Ù×÷×´Ì¬ */
+/* åˆ é™¤é“¾è¡¨çš„ç¬¬ä¸€ä¸ªå…ƒç´ ï¼ˆä¸æ˜¯è¡¨å¤´ï¼‰ï¼Œå¹¶ä¸”è¿”å›žä¸€ä¸ªæ“ä½œçŠ¶æ€ */
 BOOL RemoveElementFromLinkTable(LinkTable* table) {
 	LinkTable* Pointer;
 	if (table == NULL || !table->Next) {
@@ -116,7 +116,7 @@ BOOL RemoveElementFromLinkTable(LinkTable* table) {
 	free(Pointer);
 	return true;
 }
-/* É¾³ýÁ´±íÖ¸¶¨Ë÷ÒýµÄÔªËØ£¬²¢ÇÒ·µ»ØÒ»¸ö²Ù×÷×´Ì¬ */
+/* åˆ é™¤é“¾è¡¨æŒ‡å®šç´¢å¼•çš„å…ƒç´ ï¼Œå¹¶ä¸”è¿”å›žä¸€ä¸ªæ“ä½œçŠ¶æ€ */
 BOOL RemoveElementFromIndex(LinkTable* table, int index) {
 	LinkTable* Previous = table, *Current = table->Next;
 	int x;
@@ -131,7 +131,7 @@ BOOL RemoveElementFromIndex(LinkTable* table, int index) {
 	free(Current);
 	return true;
 }
-/* ²éÕÒÁ´±íÖÐÊÇ·ñ°üº¬Ä³¸öÔªËØ£¬Î´ÕÒµ½Ê±·µ»Ø-1£¬·ñÔò·µ»ØË÷Òý*/
+/* æŸ¥æ‰¾é“¾è¡¨ä¸­æ˜¯å¦åŒ…å«æŸä¸ªå…ƒç´ ï¼Œæœªæ‰¾åˆ°æ—¶è¿”å›ž-1ï¼Œå¦åˆ™è¿”å›žç´¢å¼•*/
 int FindElementFromLinkTable(LinkTable* table, int value) {
 	LinkTable* Pointer = table->Next;
 	int x;
@@ -145,7 +145,7 @@ int FindElementFromLinkTable(LinkTable* table, int value) {
 	}
 	return -1;
 }
-/* ÉèÖÃÖ¸¶¨Ë÷ÒýÉÏµÄÔªËØÖµ£¬²¢·µ»ØÒ»¸ö²Ù×÷×´Ì¬ */
+/* è®¾ç½®æŒ‡å®šç´¢å¼•ä¸Šçš„å…ƒç´ å€¼ï¼Œå¹¶è¿”å›žä¸€ä¸ªæ“ä½œçŠ¶æ€ */
 BOOL SetLinkTableElement(LinkTable* table, int index, int value) {
 	LinkTable* Pointer = table->Next;
 	int x;
