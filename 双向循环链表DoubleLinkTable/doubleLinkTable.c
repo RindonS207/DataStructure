@@ -26,7 +26,7 @@ typedef struct DoubleTable
 	DoubleTable* PriorElement;
 	DoubleTable* NextElement;
 }DoubleTable;
-/* ³õÊ¼»¯Ò»¸öË«ÏòÁ´±í */
+/* åˆå§‹åŒ–ä¸€ä¸ªåŒå‘é“¾è¡¨ */
 static DoubleTable* CreateDoubleTable()
 {
 	DoubleTable* table = malloc(sizeof(DoubleTable));
@@ -38,7 +38,7 @@ static DoubleTable* CreateDoubleTable()
 	table->PriorElement = table;
 	return table;
 }
-/* ´òÓ¡Õû¸öÁ´±í */
+/* æ‰“å°æ•´ä¸ªé“¾è¡¨ */
 static void PrintDoubleTable(DoubleTable* head)
 {
 	DoubleTable* pointer = head->NextElement;
@@ -48,7 +48,7 @@ static void PrintDoubleTable(DoubleTable* head)
 		pointer = pointer->NextElement;
 	}
 }
-/* »ñÈ¡Ë«ÏòÁ´±íµÄ³¤¶È */
+/* è·å–åŒå‘é“¾è¡¨çš„é•¿åº¦ */
 static int LengthOfDoubleTable(DoubleTable* head)
 {
 	int count = 0; DoubleTable* pointer = head;
@@ -63,17 +63,13 @@ static int LengthOfDoubleTable(DoubleTable* head)
 	}
 	return count;
 }
-/* ÏòË«ÏòÁ´±íÖĞÌí¼ÓÔªËØ£¬Ìí¼ÓÖÁÎ²²¿ */
+/* å‘åŒå‘é“¾è¡¨ä¸­æ·»åŠ å…ƒç´ ï¼Œæ·»åŠ è‡³å°¾éƒ¨ */
 static BOOL AddElementToDoubleTable(DoubleTable* head, Element value)
 {
-	DoubleTable* pointer = head;
+	DoubleTable* pointer = head->PriorElement;
 	if (head == NULL || value.value == NULL)
 	{
 		return false;
-	}
-	while (pointer->NextElement != head)
-	{
-		pointer = pointer->NextElement;
 	}
 	DoubleTable* new_element = (DoubleTable*)malloc(sizeof(DoubleTable));
 	if (new_element == NULL)
@@ -84,9 +80,10 @@ static BOOL AddElementToDoubleTable(DoubleTable* head, Element value)
 	new_element->PriorElement = pointer;
 	new_element->NextElement = head;
 	pointer->NextElement = new_element;
+	head->PriorElement = new_element;
 	return true;
 }
-/* ÏòË«ÏòÁ´±íÖĞÖ¸¶¨Ë÷Òı²åÈëÔªËØ */
+/* å‘åŒå‘é“¾è¡¨ä¸­æŒ‡å®šç´¢å¼•æ’å…¥å…ƒç´  */
 static BOOL InsertElementToDoubleTable(DoubleTable* head, int index, Element value)
 {
 	DoubleTable* loopPointer = head; int foreach_index = 0,length = LengthOfDoubleTable(head);
@@ -118,7 +115,7 @@ static BOOL InsertElementToDoubleTable(DoubleTable* head, int index, Element val
 	}
 	return true;
 }
-/* É¾³ıË«ÏòÁ´±íÖĞÖ¸¶¨Ë÷ÒıÔªËØ */
+/* åˆ é™¤åŒå‘é“¾è¡¨ä¸­æŒ‡å®šç´¢å¼•å…ƒç´  */
 static BOOL RemoveElementFromDoubleTable(DoubleTable* head, int index)
 {
 	DoubleTable* loopPointer = head; int foreach_index = 0, length = LengthOfDoubleTable(head);
