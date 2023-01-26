@@ -15,7 +15,7 @@ typedef struct ChildLink ChildLink;
 static StaticTree* CreateStaticTree();
 static void PrintStaticTree(StaticTree* tree);
 static void PrintStaticTreeNode(StaticTree* tree,int index,BOOL recursion);
-static BOOL RemoveNodeFromStaticTree(StaticTree* tree , int index , BOOL recutsion);
+static BOOL RemoveNodeFromStaticTree(StaticTree* tree , int index , BOOL recursion);
 static int AddNodeToStaticTree(StaticTree* tree, int Monindex, int CountOwned, int CountNeeded);
 static int GetIndexByValue(StaticTree* tree, int start, int value );
 static int MallocFromStaticTree(StaticTree* tree);
@@ -265,7 +265,7 @@ static int GetIndexByValue(StaticTree* tree , int start, int value)
 	}
 }
 /* 删除指定索引的节点，并决定是否连子节点一起删除 */
-static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion)
+static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recursion)
 {
 	ChildLink* link,*loopPointer;
 	int monIndex,brotherIndex=0,x,childCount=1,*childrenIndex;
@@ -273,7 +273,7 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 		printf("请输入有意义的数据。\n");
 		return false;
 	}
-	if (index == 0 && !recutsion) {
+	if (index == 0 && !recursion) {
 		printf("清除根节点时请使用递归模式。\n");
 		return false;
 	}
@@ -309,7 +309,7 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 			childrenIndex[x] = link->index;
 			link = link->Next;
 		}
-		if (!recutsion) {
+		if (!recursion) {
 			link = tree->nodes[monIndex].Children;
 			if (link->index != NULL) {
 				link = link->Next;
@@ -317,7 +317,7 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 		}
 		for (x = 0; x < childCount; x++) {
 			int Cindex = childrenIndex[x];
-			if (!recutsion) {
+			if (!recursion) {
 				tree->nodes[Cindex].Parent = monIndex;
 				if (link->index == -1) {
 					link->index = Cindex;
@@ -333,7 +333,7 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 			}
 			else {
 				if (tree->nodes[Cindex].Children->index != -1) {
-					RemoveNodeFromStaticTree(tree, Cindex, recutsion);
+					RemoveNodeFromStaticTree(tree, Cindex, recursion);
 				}
 				else {
 					FreeFromStaticTree(tree, Cindex);
