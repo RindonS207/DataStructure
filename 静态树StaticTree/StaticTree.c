@@ -7,7 +7,7 @@
 
 #define S_TREE_INCLUDED 1
 #define DEFAULT_SIZE 100
-/* ¾²Ì¬¶à²æÊ÷ */
+/* é™æ€å¤šå‰æ ‘ */
 typedef enum ForeachMode ForeachMode;
 typedef struct StaticTree StaticTree;
 typedef struct ST_NODE ST_NODE;
@@ -26,7 +26,7 @@ typedef struct ST_NODE
 {
 	int data;
 	short int NextIndex;
-	ChildLink *childs;
+	ChildLink *Children;
 	short int Parent;
 }ST_NODE;
 
@@ -37,27 +37,27 @@ typedef struct ChildLink {
 
 typedef struct StaticTree
 {
-	/* Ë÷Òı0×ÜÊÇ¸ù½Úµã */
+	/* ç´¢å¼•0æ€»æ˜¯æ ¹èŠ‚ç‚¹ */
 	ST_NODE nodes[DEFAULT_SIZE];
 	unsigned short int IdleSpaceIndex;
 }StaticTree;
 
-/* ´´½¨¾²Ì¬¶à²æÊ÷ */
+/* åˆ›å»ºé™æ€å¤šå‰æ ‘ */
 static StaticTree* CreateStaticTree() {
 	char inputchar;
 	int nodeCount=0,input,nowselectIndex=0,x,count,
-		*firstChilds;
+		*firstChildren;
 	ChildLink* link,*newlink;
 	StaticTree* tree = (StaticTree*)malloc(sizeof(StaticTree));
 	if (tree == NULL) {
-		printf("\nÄÚ´æÉêÇëÊ§°ÜÁË£¡\n");
+		printf("\nå†…å­˜ç”³è¯·å¤±è´¥äº†ï¼\n");
 		return NULL;
 	}
-	printf("ÇëÊäÈë´´½¨¾²Ì¬¶à²æÊ÷µÄ½Úµã×ÜÊıÁ¿:\n");
+	printf("è¯·è¾“å…¥åˆ›å»ºé™æ€å¤šå‰æ ‘çš„èŠ‚ç‚¹æ€»æ•°é‡:\n");
 	scanf("%d",&nodeCount);
 	if (nodeCount < 1 || nodeCount > DEFAULT_SIZE) {
 		free(tree);
-		printf("ÇëÊäÈëÒ»¸öÓĞĞ§µÄÖµ¡£\n");
+		printf("è¯·è¾“å…¥ä¸€ä¸ªæœ‰æ•ˆçš„å€¼ã€‚\n");
 		return NULL;
 	}
 	tree->IdleSpaceIndex = 1;
@@ -66,79 +66,79 @@ static StaticTree* CreateStaticTree() {
 		tree->nodes[x].Parent = -1;
 	}
 	tree->nodes[DEFAULT_SIZE - 1].NextIndex = -1;
-	/* ´´½¨¸ù½Úµã */
-	printf("ÇëÊäÈë¶Ë½ÚµãµÄÖµ:\n");
+	/* åˆ›å»ºæ ¹èŠ‚ç‚¹ */
+	printf("è¯·è¾“å…¥ç«¯èŠ‚ç‚¹çš„å€¼:\n");
 	scanf("%d", &input);
 	tree->nodes[nowselectIndex].data = input;
-	tree->nodes[0].childs = (ChildLink*)malloc(sizeof(ChildLink));
-	tree->nodes[0].childs->index = -1;
-	tree->nodes[0].childs->Next = NULL;
+	tree->nodes[0].Children = (ChildLink*)malloc(sizeof(ChildLink));
+	tree->nodes[0].Children->index = -1;
+	tree->nodes[0].Children->Next = NULL;
 	if (nodeCount == 1) {
 		
-		printf("1¸ö½ÚµãµÄÊ÷¹¹½¨Íê³É¡£\n");
+		printf("1ä¸ªèŠ‚ç‚¹çš„æ ‘æ„å»ºå®Œæˆã€‚\n");
 		return tree;
 	}
 	else {
 		count =  CreateStaticTreeNode(tree, 0, 1, nodeCount);
 	}
 	if (count == nodeCount) {
-		printf("Ê÷´´½¨Íê³É¡£\n");
+		printf("æ ‘åˆ›å»ºå®Œæˆã€‚\n");
 	}
 	else {
 		free(tree);
-		printf("·¢ÉúÁËÔ¤ÆÚÖ®ÍâµÄÊÂÇé£¬Ê÷´´½¨Ê§°Ü¡£\n");
+		printf("å‘ç”Ÿäº†é¢„æœŸä¹‹å¤–çš„äº‹æƒ…ï¼Œæ ‘åˆ›å»ºå¤±è´¥ã€‚\n");
 	}
 	return tree;
 }
-/* ´òÓ¡¶à²æÊ÷ */
+/* æ‰“å°å¤šå‰æ ‘ */
 static void PrintStaticTree(StaticTree* tree)
 {
 	PrintStaticTreeNode(tree, 0, true);
 }
-/* ´òÓ¡µ¥¸ö½ÚµãµÄĞÅÏ¢ recursion¾ö¶¨ÊÇ·ñ´òÓ¡¸Ã½ÚµãµÄ×Ó½Úµã */
+/* æ‰“å°å•ä¸ªèŠ‚ç‚¹çš„ä¿¡æ¯ recursionå†³å®šæ˜¯å¦æ‰“å°è¯¥èŠ‚ç‚¹çš„å­èŠ‚ç‚¹ */
 static void PrintStaticTreeNode(StaticTree* tree, int index, BOOL recursion) {
 	ChildLink* link;
 	int childCount = 1,*arr,x;
 	printf("\n");
 	if (tree == NULL || index < 0 || index >= DEFAULT_SIZE) {
-		printf("ÇëÊäÈëÓĞĞ§µÄË÷ÒıÖµ¡£\n");
+		printf("è¯·è¾“å…¥æœ‰æ•ˆçš„ç´¢å¼•å€¼ã€‚\n");
 		return;
 	}
 	if (index == 0) {
-		printf("½ÚµãÏÂ±ê 0 ÖµÎª %d £¬Õâ¸ö½ÚµãÊÇ¸ù½Úµã¡£\n",tree->nodes[0].data);
+		printf("èŠ‚ç‚¹ä¸‹æ ‡ 0 å€¼ä¸º %d ï¼Œè¿™ä¸ªèŠ‚ç‚¹æ˜¯æ ¹èŠ‚ç‚¹ã€‚\n",tree->nodes[0].data);
 	}
-	if (tree->nodes[index].childs->index == -1) {
-		printf("½ÚµãÏÂ±ê %d ÖµÎª %d £¬Õâ¸ö½ÚµãÊÇÒ¶½Úµã¡£\n",index,tree->nodes[index].data);
+	if (tree->nodes[index].Children->index == -1) {
+		printf("èŠ‚ç‚¹ä¸‹æ ‡ %d å€¼ä¸º %d ï¼Œè¿™ä¸ªèŠ‚ç‚¹æ˜¯å¶èŠ‚ç‚¹ã€‚\n",index,tree->nodes[index].data);
 		if (index == 0) {
-			printf("Õâ¸ö½ÚµãÃ»ÓĞ¸¸Ä¸¡£\n");
+			printf("è¿™ä¸ªèŠ‚ç‚¹æ²¡æœ‰çˆ¶æ¯ã€‚\n");
 		}
 		else {
-			printf("Õâ¸ö½ÚµãµÄ¸¸Ä¸ÊÇÏÂ±ê %d ÖµÎª %d\n", tree->nodes[index].Parent, tree->nodes[tree->nodes[index].Parent].data);
+			printf("è¿™ä¸ªèŠ‚ç‚¹çš„çˆ¶æ¯æ˜¯ä¸‹æ ‡ %d å€¼ä¸º %d\n", tree->nodes[index].Parent, tree->nodes[tree->nodes[index].Parent].data);
 		}
 	}
 	else {
-		link = tree->nodes[index].childs;
+		link = tree->nodes[index].Children;
 		while (link->Next != NULL) {
 			childCount += 1;
 			link = link->Next;
 		}
 		arr = (int*)calloc(childCount, sizeof(int));
-		link = tree->nodes[index].childs;
+		link = tree->nodes[index].Children;
 		for (x = 0; x < childCount; x++) {
 			
 			arr[x] = link->index;
 			link = link->Next;
 		}
-		printf("½ÚµãÏÂ±ê %d ÖµÎª %d £¬Õâ¸ö½ÚµãÓµÓĞ %d ¸öº¢×Ó¡£\n", index, tree->nodes[index].data, childCount);
+		printf("èŠ‚ç‚¹ä¸‹æ ‡ %d å€¼ä¸º %d ï¼Œè¿™ä¸ªèŠ‚ç‚¹æ‹¥æœ‰ %d ä¸ªå­©å­ã€‚\n", index, tree->nodes[index].data, childCount);
 		if (index == 0) {
-			printf("Õâ¸ö½ÚµãÃ»ÓĞ¸¸Ä¸¡£\n");
+			printf("è¿™ä¸ªèŠ‚ç‚¹æ²¡æœ‰çˆ¶æ¯ã€‚\n");
 		}
 		else {
-			printf("Õâ¸ö½ÚµãµÄ¸¸Ä¸ÊÇÏÂ±ê %d ÖµÎª %d\n", tree->nodes[index].Parent, tree->nodes[tree->nodes[index].Parent].data);
+			printf("è¿™ä¸ªèŠ‚ç‚¹çš„çˆ¶æ¯æ˜¯ä¸‹æ ‡ %d å€¼ä¸º %d\n", tree->nodes[index].Parent, tree->nodes[tree->nodes[index].Parent].data);
 		}
-		printf("ËûµÄº¢×Ó·Ö±ğÊÇ£º\n");
+		printf("ä»–çš„å­©å­åˆ†åˆ«æ˜¯ï¼š\n");
 		for (x = 0; x < childCount; x++) {
-			printf("ÏÂ±ê:%d  Öµ:%d\n",arr[x],tree->nodes[arr[x]].data);
+			printf("ä¸‹æ ‡:%d  å€¼:%d\n",arr[x],tree->nodes[arr[x]].data);
 		}
 		printf("\n");
 		if (recursion) {
@@ -149,23 +149,23 @@ static void PrintStaticTreeNode(StaticTree* tree, int index, BOOL recursion) {
 		free(arr);
 	}
 }
-/* ÔÚ¶à²æÊ÷ÄÚÉêÇë¡°ÄÚ´æ¡± */
+/* åœ¨å¤šå‰æ ‘å†…ç”³è¯·â€œå†…å­˜â€ */
 static int MallocFromStaticTree(StaticTree* tree)
 {
 	int temp;
 	if (tree == NULL || tree->IdleSpaceIndex == -1) {
-		printf("Ê÷²»´æÔÚ»òÎŞ¿ÕÏĞ¿Õ¼ä¡£\n");
+		printf("æ ‘ä¸å­˜åœ¨æˆ–æ— ç©ºé—²ç©ºé—´ã€‚\n");
 		return -1;
 	}
 	temp = tree->IdleSpaceIndex;
 	tree->IdleSpaceIndex = tree->nodes[temp].NextIndex;
 	return temp;
 }
-/* ÊÍ·ÅÖ¸¶¨Ë÷ÒıµÄ¡°ÄÚ´æ¡± */
+/* é‡Šæ”¾æŒ‡å®šç´¢å¼•çš„â€œå†…å­˜â€ */
 static void FreeFromStaticTree(StaticTree* tree, int index)
 {
 	if (index < 1 || index > DEFAULT_SIZE) {
-		printf("Çë´«ÈëÓĞĞ§Öµ¡£\n");
+		printf("è¯·ä¼ å…¥æœ‰æ•ˆå€¼ã€‚\n");
 		return;
 	}
 	else {
@@ -173,20 +173,20 @@ static void FreeFromStaticTree(StaticTree* tree, int index)
 		tree->IdleSpaceIndex = index;
 	}
 }
-/* ×ÔÉíµ±Ç°Ë÷Òı£¬×ÔÉí¸¸Ä¸Ë÷Òı£¬
-  Ä¿Ç°ÒÑÓµÓĞ½Úµã×ÜÊı£¬µ±Ç°ËùĞè½Úµã×ÜÊı */
+/* è‡ªèº«å½“å‰ç´¢å¼•ï¼Œè‡ªèº«çˆ¶æ¯ç´¢å¼•ï¼Œ
+  ç›®å‰å·²æ‹¥æœ‰èŠ‚ç‚¹æ€»æ•°ï¼Œå½“å‰æ‰€éœ€èŠ‚ç‚¹æ€»æ•° */
 static int CreateStaticTreeNode(StaticTree* tree, int MonIndex,int CountOwned, int CountNeeded) 
 {
 	if (tree == NULL) {
-		printf("ÇëÊäÈëÓĞĞ§Öµ¡£\n");
+		printf("è¯·è¾“å…¥æœ‰æ•ˆå€¼ã€‚\n");
 		return CountOwned;
 	}
 	int value,x,newindex,input;
 	ChildLink* link;
-	printf("ÇëÊäÈë %d(Öµ) %d(ÏÂ±ê) ËùĞèÒªµÄº¢×Ó½ÚµãÊı¡£\n",tree->nodes[MonIndex].data,MonIndex);
+	printf("è¯·è¾“å…¥ %d(å€¼) %d(ä¸‹æ ‡) æ‰€éœ€è¦çš„å­©å­èŠ‚ç‚¹æ•°ã€‚\n",tree->nodes[MonIndex].data,MonIndex);
 	scanf("%d",&value);
 	if (CountOwned + value > CountNeeded) {
-		printf("ÊıÖµ³¬¹ıÔ¤ÆÚ£¬¹¹½¨È¡Ïû¡£\n");
+		printf("æ•°å€¼è¶…è¿‡é¢„æœŸï¼Œæ„å»ºå–æ¶ˆã€‚\n");
 		free(tree);
 		return CountOwned;
 	}
@@ -197,20 +197,20 @@ static int CreateStaticTreeNode(StaticTree* tree, int MonIndex,int CountOwned, i
 		CountOwned += value;
 		for (x = 0; x < value; x++) {
 			newindex = MallocFromStaticTree(tree);
-			printf("ÇëÊäÈë %d(Ë÷Òı) µÄµÚ %d ¸öº¢×ÓµÄÖµ¡£\n",MonIndex,x+1);
+			printf("è¯·è¾“å…¥ %d(ç´¢å¼•) çš„ç¬¬ %d ä¸ªå­©å­çš„å€¼ã€‚\n",MonIndex,x+1);
 			scanf("%d", &input);
 
-			if (tree->nodes[MonIndex].childs->index == -1) {
-				tree->nodes[MonIndex].childs->index = newindex;
+			if (tree->nodes[MonIndex].Children->index == -1) {
+				tree->nodes[MonIndex].Children->index = newindex;
 			}
 			else {
-				link = tree->nodes[MonIndex].childs;
+				link = tree->nodes[MonIndex].Children;
 				while (link->Next != NULL) {
 					link = link->Next;
 				}
 				ChildLink* newlink = (ChildLink*)malloc(sizeof(ChildLink));
 				if (newlink == NULL) {
-					printf("ÉêÇëÄÚ´æÊ§°Ü£¬Ïú»ÙÊ÷¡£\n");
+					printf("ç”³è¯·å†…å­˜å¤±è´¥ï¼Œé”€æ¯æ ‘ã€‚\n");
 					free(tree);
 					return CountOwned;
 				}
@@ -222,9 +222,9 @@ static int CreateStaticTreeNode(StaticTree* tree, int MonIndex,int CountOwned, i
 			tree->nodes[newindex].data = input;
 			tree->nodes[newindex].Parent = MonIndex;
 
-			tree->nodes[newindex].childs = (ChildLink*)malloc(sizeof(ChildLink));
-			tree->nodes[newindex].childs->index = -1;
-			tree->nodes[newindex].childs->Next = NULL;
+			tree->nodes[newindex].Children = (ChildLink*)malloc(sizeof(ChildLink));
+			tree->nodes[newindex].Children->index = -1;
+			tree->nodes[newindex].Children->Next = NULL;
 
 			if (CountOwned < CountNeeded) {
 				CountOwned = CreateStaticTreeNode(tree, newindex, CountOwned, CountNeeded);
@@ -233,26 +233,26 @@ static int CreateStaticTreeNode(StaticTree* tree, int MonIndex,int CountOwned, i
 	}
 	return CountOwned;
 }
-/* ¸ù¾İ¸ø³öµÄÔªËØÖµ£¬¿ªÊ¼Î»ÖÃ£¬²éÕÒµÚÒ»¸ö·ûºÏÌõ¼şÔªËØËùÔÚË÷Òı(Ç°Ğò±éÀú) */
+/* æ ¹æ®ç»™å‡ºçš„å…ƒç´ å€¼ï¼Œå¼€å§‹ä½ç½®ï¼ŒæŸ¥æ‰¾ç¬¬ä¸€ä¸ªç¬¦åˆæ¡ä»¶å…ƒç´ æ‰€åœ¨ç´¢å¼•(å‰åºéå†) */
 static int GetIndexByValue(StaticTree* tree , int start, int value)
 {
 	ChildLink* link;
 	int x,data;
 	if (tree == NULL) {
-		printf("Çë´«ÈëÒ»¸öÓĞĞ§µÄÊ÷¶ÔÏó¡£\n");
+		printf("è¯·ä¼ å…¥ä¸€ä¸ªæœ‰æ•ˆçš„æ ‘å¯¹è±¡ã€‚\n");
 		return -1;
 	}
 	if (tree->nodes[start].data == value) {
 		return start;
 	}
-	else if (tree->nodes[start].childs->index == -1) {
+	else if (tree->nodes[start].Children->index == -1) {
 		return -1;
 	}
 	while (true) {
 		if (tree->nodes[start].data == value) {
 			return start;
 		}
-		for ( link = tree->nodes[start].childs; link != NULL; link = link->Next) {
+		for ( link = tree->nodes[start].Children; link != NULL; link = link->Next) {
 			x = link->index;
 
 			data = GetIndexByValue(tree, x, value);
@@ -264,28 +264,28 @@ static int GetIndexByValue(StaticTree* tree , int start, int value)
 		return -1;
 	}
 }
-/* É¾³ıÖ¸¶¨Ë÷ÒıµÄ½Úµã£¬²¢¾ö¶¨ÊÇ·ñÁ¬×Ó½ÚµãÒ»ÆğÉ¾³ı */
+/* åˆ é™¤æŒ‡å®šç´¢å¼•çš„èŠ‚ç‚¹ï¼Œå¹¶å†³å®šæ˜¯å¦è¿å­èŠ‚ç‚¹ä¸€èµ·åˆ é™¤ */
 static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion)
 {
 	ChildLink* link,*loopPointer;
 	int monIndex,brotherIndex=0,x,childCount=1,*childrenIndex;
 	if (tree == NULL || index < 0 || index > DEFAULT_SIZE) {
-		printf("ÇëÊäÈëÓĞÒâÒåµÄÊı¾İ¡£\n");
+		printf("è¯·è¾“å…¥æœ‰æ„ä¹‰çš„æ•°æ®ã€‚\n");
 		return false;
 	}
 	if (index == 0 && !recutsion) {
-		printf("Çå³ı¸ù½ÚµãÊ±ÇëÊ¹ÓÃµİ¹éÄ£Ê½¡£\n");
+		printf("æ¸…é™¤æ ¹èŠ‚ç‚¹æ—¶è¯·ä½¿ç”¨é€’å½’æ¨¡å¼ã€‚\n");
 		return false;
 	}
 	monIndex = tree->nodes[index].Parent;
-	link = tree->nodes[monIndex].childs;
+	link = tree->nodes[monIndex].Children;
 	while (link != NULL) {
 		if (link->index == index) {
 			if (!brotherIndex) {
 				link->index = -1;
 			}
 			else {
-				for (x = 0 , loopPointer = tree->nodes[monIndex].childs; x < brotherIndex; x++) {
+				for (x = 0 , loopPointer = tree->nodes[monIndex].Children; x < brotherIndex; x++) {
 
 					loopPointer->Next = link->Next;
 					
@@ -298,19 +298,19 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 		brotherIndex += 1;
 	}
 	FreeFromStaticTree(tree, index);
-	if (tree->nodes[index].childs->index != -1) {
-		link = tree->nodes[index].childs;
+	if (tree->nodes[index].Children->index != -1) {
+		link = tree->nodes[index].Children;
 		while (link->Next != NULL) {
 			childCount += 1;
 			link = link->Next;
 		}
 		childrenIndex = (int*)calloc(childCount, sizeof(int));
-		for (x = 0 , link = tree->nodes[index].childs; x < childCount; x++) {
+		for (x = 0 , link = tree->nodes[index].Children; x < childCount; x++) {
 			childrenIndex[x] = link->index;
 			link = link->Next;
 		}
 		if (!recutsion) {
-			link = tree->nodes[monIndex].childs;
+			link = tree->nodes[monIndex].Children;
 			if (link->index != NULL) {
 				link = link->Next;
 			}
@@ -332,7 +332,7 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 				}
 			}
 			else {
-				if (tree->nodes[Cindex].childs->index != -1) {
+				if (tree->nodes[Cindex].Children->index != -1) {
 					RemoveNodeFromStaticTree(tree, Cindex, recutsion);
 				}
 				else {
@@ -343,7 +343,7 @@ static BOOL RemoveNodeFromStaticTree(StaticTree* tree, int index, BOOL recutsion
 	}
 	return true;
 }
-/* ÏòÖ¸¶¨Ë÷ÒıÌí¼Óº¢×Ó½Úµã */
+/* å‘æŒ‡å®šç´¢å¼•æ·»åŠ å­©å­èŠ‚ç‚¹ */
 static int AddNodeToStaticTree(StaticTree* tree, int Monindex, int CountOwned, int CountNeeded)
 {
 	ChildLink* link;
@@ -351,10 +351,10 @@ static int AddNodeToStaticTree(StaticTree* tree, int Monindex, int CountOwned, i
 	if (tree == NULL || Monindex < 0 || Monindex > DEFAULT_SIZE) {
 		return CountOwned;
 	}
-	link = tree->nodes[Monindex].childs;
-	if (tree->nodes[Monindex].childs->index == -1) {
+	link = tree->nodes[Monindex].Children;
+	if (tree->nodes[Monindex].Children->index == -1) {
 		childCount = 0;
-		printf("ÇëÊäÈë %d(Öµ) %d(ÏÂ±ê) ½ÚµãËùĞèÒªµÄº¢×ÓÊıÁ¿£º\n", tree->nodes[Monindex].data, Monindex);
+		printf("è¯·è¾“å…¥ %d(å€¼) %d(ä¸‹æ ‡) èŠ‚ç‚¹æ‰€éœ€è¦çš„å­©å­æ•°é‡ï¼š\n", tree->nodes[Monindex].data, Monindex);
 	}
 	else {
 		childCount = 1;
@@ -363,11 +363,11 @@ static int AddNodeToStaticTree(StaticTree* tree, int Monindex, int CountOwned, i
 			link = link->Next;
 			childCount += 1;
 		}
-		printf("ÇëÊäÈë %d(Öµ) %d(ÏÂ±ê) ½ÚµãËùĞèÒªÌí¼ÓµÄº¢×ÓÊıÁ¿£º\n", tree->nodes[Monindex].data, Monindex);
+		printf("è¯·è¾“å…¥ %d(å€¼) %d(ä¸‹æ ‡) èŠ‚ç‚¹æ‰€éœ€è¦æ·»åŠ çš„å­©å­æ•°é‡ï¼š\n", tree->nodes[Monindex].data, Monindex);
 	}
 	scanf("%d",&value);
 	if (CountOwned + value > CountNeeded || value < 0) {
-		printf("ÊıÁ¿³¬¹ıÔ¤ÆÚ£¬Ìí¼ÓÈ¡Ïû¡£\n");
+		printf("æ•°é‡è¶…è¿‡é¢„æœŸï¼Œæ·»åŠ å–æ¶ˆã€‚\n");
 		return CountOwned;
 	}
 	if (value == 0) {
@@ -376,27 +376,27 @@ static int AddNodeToStaticTree(StaticTree* tree, int Monindex, int CountOwned, i
 	CountOwned += value;
 	for (x = 0; x < value; x++) {
 		newIndex = MallocFromStaticTree(tree);
-		printf("ÇëÊäÈë %d(Ë÷Òı) µÄµÚ %d ¸öº¢×ÓµÄÖµ¡£\n", Monindex, x + 1);
+		printf("è¯·è¾“å…¥ %d(ç´¢å¼•) çš„ç¬¬ %d ä¸ªå­©å­çš„å€¼ã€‚\n", Monindex, x + 1);
 		scanf("%d",&input);
 
 		tree->nodes[newIndex].data = input;
-		tree->nodes[newIndex].childs = (ChildLink*)malloc(sizeof(ChildLink));
-		if (tree->nodes[newIndex].childs == NULL) {
-			printf("ÄÚ´æÉêÇëÊ§°Ü\n");
+		tree->nodes[newIndex].Children = (ChildLink*)malloc(sizeof(ChildLink));
+		if (tree->nodes[newIndex].Children == NULL) {
+			printf("å†…å­˜ç”³è¯·å¤±è´¥\n");
 			FreeFromStaticTree(tree, newIndex);
 			return CountOwned;
 		}
-		tree->nodes[newIndex].childs->index = -1;
-		tree->nodes[newIndex].childs->Next = NULL;
+		tree->nodes[newIndex].Children->index = -1;
+		tree->nodes[newIndex].Children->Next = NULL;
 
 		if (!childCount) {
 			childCount = 1;
-			tree->nodes[Monindex].childs->index = newIndex;
+			tree->nodes[Monindex].Children->index = newIndex;
 		}
 		else {
 			ChildLink* newlink = (ChildLink*)malloc(sizeof(ChildLink));
 			if (newlink == NULL) {
-				printf("·¢ÉúÁËÔ¤ÆÚÖ®ÍâµÄÇé¿ö¡£\n");
+				printf("å‘ç”Ÿäº†é¢„æœŸä¹‹å¤–çš„æƒ…å†µã€‚\n");
 				return CountOwned;
 			}
 			newlink->index = newIndex;
