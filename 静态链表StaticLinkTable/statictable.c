@@ -7,7 +7,7 @@
 #include "BOOL_DEF.c"
 #endif 
 
-#define STATIC_TABLE_INCLUDED 1
+#define STATIC_STACK_INCLUDED 1
 
 /*声明*/
 typedef struct Element
@@ -46,6 +46,7 @@ static void PrintStaticLinkTable(StaticLinkTable table[], int tableSize)
 		printf("%d\t",table[startIndex].data.value);
 		startIndex = table[startIndex].NextIndex;
 	}
+	printf("\n");
 	return;
 }
 /* 初始化一个静态链表 */
@@ -125,12 +126,7 @@ static BOOL InsertElementToStaticLinkTable(StaticLinkTable table[], int tableSiz
 {
 	int new_index,startIndex = table[tableSize -1].NextIndex,foreach_index = 0;
 	/* 插入位置不合理或是链表为空 */
-	if (LengthOfStaticTable(table, tableSize) < index || table == NULL)
-	{
-		return false;
-	}
-	new_index = Malloc_address(table);
-	if (!new_index)
+	if (tableSize <= index || table == NULL)
 	{
 		return false;
 	}
@@ -138,7 +134,15 @@ static BOOL InsertElementToStaticLinkTable(StaticLinkTable table[], int tableSiz
 	while (foreach_index < index-1)
 	{
 		startIndex = table[startIndex].NextIndex;
+		if (startIndex == 0) {
+			return false;
+		}
 		foreach_index += 1;
+	}
+	new_index = Malloc_address(table);
+	if (!new_index)
+	{
+		return false;
 	}
 	table[new_index].data = e;
 	table[new_index].NextIndex = table[startIndex].NextIndex;
@@ -149,13 +153,16 @@ static BOOL InsertElementToStaticLinkTable(StaticLinkTable table[], int tableSiz
 static Element GetElementFromStaticLinkTable(StaticLinkTable table[], int tableSize, int index)
 {
 	int startIndex = table[tableSize - 1].NextIndex,foreach_index = 0;
-	if (LengthOfStaticTable(table, tableSize) < index + 1 || table == NULL)
+	if(tableSize  <= index || table == NULL)
 	{
 		return (Element) { 0 };
 	}
 	while (foreach_index < index)
 	{
 		startIndex = table[startIndex].NextIndex;
+		if (!startIndex) {
+			return (Element) { 0 };
+		}
 		foreach_index += 1;
 	}
 	return table[startIndex].data;
