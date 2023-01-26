@@ -7,9 +7,9 @@
 #include "BOOL_DEF.c"
 #endif 
 
-#define STATIC_STACK_INCLUDED 1
+#define STATIC_TABLE_INCLUDED 1
 
-/*ÉùÃ÷*/
+/*å£°æ˜*/
 typedef struct Element
 {
 	int value;
@@ -31,16 +31,16 @@ static int LengthOfStaticTable(StaticLinkTable table[],int tableSize);
 static BOOL RemoveElementFromStaticLinkTable(StaticLinkTable table[], int tableSize, int index);
 static int FindIndexOfStaticTable(StaticLinkTable table[], int tableSize, Element e);
 
-/* ´òÓ¡Ò»Õû¸ö¾²Ì¬Á´±í */
+/* æ‰“å°ä¸€æ•´ä¸ªé™æ€é“¾è¡¨ */
 static void PrintStaticLinkTable(StaticLinkTable table[], int tableSize)
 {
 	int startIndex = table[tableSize - 1].NextIndex;
 	if (!startIndex)
 	{
-		printf("´ËÁ´±íÎŞÔªËØ¿É´òÓ¡¡£\n");
+		printf("æ­¤é“¾è¡¨æ— å…ƒç´ å¯æ‰“å°ã€‚\n");
 		return;
 	}
-	/* ±éÀú´òÓ¡ */
+	/* éå†æ‰“å° */
 	while (startIndex)
 	{
 		printf("%d\t",table[startIndex].data.value);
@@ -48,7 +48,7 @@ static void PrintStaticLinkTable(StaticLinkTable table[], int tableSize)
 	}
 	return;
 }
-/* ³õÊ¼»¯Ò»¸ö¾²Ì¬Á´±í */
+/* åˆå§‹åŒ–ä¸€ä¸ªé™æ€é“¾è¡¨ */
 static BOOL Initlist(StaticLinkTable table[], int tableLength)
 {
 	int x;
@@ -63,13 +63,13 @@ static BOOL Initlist(StaticLinkTable table[], int tableLength)
 	table[tableLength - 1].NextIndex = 0;
 	return true;
 }
-/* Ïò¾²Ì¬Á´±íÉêÇëÄÚ´æ£¨»ñÈ¡¿ÕÏĞ¿Õ¼äµÚÒ»¸öË÷Òı£© */
+/* å‘é™æ€é“¾è¡¨ç”³è¯·å†…å­˜ï¼ˆè·å–ç©ºé—²ç©ºé—´ç¬¬ä¸€ä¸ªç´¢å¼•ï¼‰ */
 static int Malloc_address(StaticLinkTable table[])
 {
-	/* 1.Ê×ÏÈ»ñÈ¡¿ÕÏĞÎ»ÖÃË÷Òı
-	   2.Èç¹û»ñÈ¡¿ÕÏĞÎ»ÖÃ²»Îª0£¬Ò²¾ÍÊÇ»¹ÓĞ¿É·ÖÅä¿Õ¼ä
-	   3.ÄÇ¾Í°Ñ»ñÈ¡µ½µÄÎ»ÖÃµÄÏÂÒ»¸öË÷Òı¸³Öµ¸øÍ·²¿µÄnextindex¸üĞÂ¿ÕÏĞÁ´±íµÚÒ»¸öË÷Òı
-	   4.·µ»Ø»ñÈ¡µ½µÄ¿ÕÏĞÎ»ÖÃË÷Òı£¬·ÖÅä³É¹¦ */
+	/* 1.é¦–å…ˆè·å–ç©ºé—²ä½ç½®ç´¢å¼•
+	   2.å¦‚æœè·å–ç©ºé—²ä½ç½®ä¸ä¸º0ï¼Œä¹Ÿå°±æ˜¯è¿˜æœ‰å¯åˆ†é…ç©ºé—´
+	   3.é‚£å°±æŠŠè·å–åˆ°çš„ä½ç½®çš„ä¸‹ä¸€ä¸ªç´¢å¼•èµ‹å€¼ç»™å¤´éƒ¨çš„nextindexæ›´æ–°ç©ºé—²é“¾è¡¨ç¬¬ä¸€ä¸ªç´¢å¼•
+	   4.è¿”å›è·å–åˆ°çš„ç©ºé—²ä½ç½®ç´¢å¼•ï¼Œåˆ†é…æˆåŠŸ */
 	int address = table[0].NextIndex;
 	if (address)
 	{
@@ -77,13 +77,13 @@ static int Malloc_address(StaticLinkTable table[])
 	}
 	return address;
 }
-/* Ïò¾²Ì¬Á´±íÎ²²¿Ìí¼ÓÊı¾İ */
+/* å‘é™æ€é“¾è¡¨å°¾éƒ¨æ·»åŠ æ•°æ® */
 static BOOL AddElementToStaticLinkTable(StaticLinkTable table[], int tableSize,Element e)
 {
-	/* 1.ÏÈÉêÇëĞÂ¿Õ¼äÄÚ´æ£¬Èç¹ûÉêÇëÄÚ´æÎª0Ôò´ú±íÃ»¿ÕÏĞ¿Õ¼ä£¬ÉêÇëÊ§°Ü
-	   2.»ñÈ¡Êı¾İ²¿·ÖµÚÒ»¸öË÷Òı
-	   3.½«ĞÂÔªËØ²åÈëĞÂË÷Òı
-	   4.±éÀúÁ´±í£¬Ö±µ½Î²²¿£¬½«Î²²¿µÄÏÂÒ»¸öÔªËØ¸³ÖµÎªĞÂË÷Òı */
+	/* 1.å…ˆç”³è¯·æ–°ç©ºé—´å†…å­˜ï¼Œå¦‚æœç”³è¯·å†…å­˜ä¸º0åˆ™ä»£è¡¨æ²¡ç©ºé—²ç©ºé—´ï¼Œç”³è¯·å¤±è´¥
+	   2.è·å–æ•°æ®éƒ¨åˆ†ç¬¬ä¸€ä¸ªç´¢å¼•
+	   3.å°†æ–°å…ƒç´ æ’å…¥æ–°ç´¢å¼•
+	   4.éå†é“¾è¡¨ï¼Œç›´åˆ°å°¾éƒ¨ï¼Œå°†å°¾éƒ¨çš„ä¸‹ä¸€ä¸ªå…ƒç´ èµ‹å€¼ä¸ºæ–°ç´¢å¼• */
 	int new_index,foreach_index;
 	new_index = Malloc_address(table);
 	foreach_index = table[tableSize - 1].NextIndex;
@@ -100,7 +100,7 @@ static BOOL AddElementToStaticLinkTable(StaticLinkTable table[], int tableSize,E
 	table[foreach_index].NextIndex = new_index;
 	return true;
 }
-/* »ñÈ¡¾²Ì¬Á´±íÖĞÔªËØµÄ¸öÊı */
+/* è·å–é™æ€é“¾è¡¨ä¸­å…ƒç´ çš„ä¸ªæ•° */
 static int LengthOfStaticTable(StaticLinkTable table[],int tableSize)
 {
 	int length = 0,index;
@@ -120,11 +120,11 @@ static int LengthOfStaticTable(StaticLinkTable table[],int tableSize)
 	}
 	return length;
 }
-/* ²åÈëÔªËØÖÁ¾²Ì¬Á´±í */
+/* æ’å…¥å…ƒç´ è‡³é™æ€é“¾è¡¨ */
 static BOOL InsertElementToStaticLinkTable(StaticLinkTable table[], int tableSize, Element e, int index)
 {
 	int new_index,startIndex = table[tableSize -1].NextIndex,foreach_index = 0;
-	/* ²åÈëÎ»ÖÃ²»ºÏÀí»òÊÇÁ´±íÎª¿Õ */
+	/* æ’å…¥ä½ç½®ä¸åˆç†æˆ–æ˜¯é“¾è¡¨ä¸ºç©º */
 	if (LengthOfStaticTable(table, tableSize) < index || table == NULL)
 	{
 		return false;
@@ -134,7 +134,7 @@ static BOOL InsertElementToStaticLinkTable(StaticLinkTable table[], int tableSiz
 	{
 		return false;
 	}
-	/* ÒòÎªforeachindexÊÇÔÚÅĞ¶ÏºóÔÙ+1µÄ£¬ËùÒÔÕâ±ßindexÒª-1£¬·ÀÖ¹³¬¹ıÔ¤ÆÚÎ»ÖÃ */
+	/* å› ä¸ºforeachindexæ˜¯åœ¨åˆ¤æ–­åå†+1çš„ï¼Œæ‰€ä»¥è¿™è¾¹indexè¦-1ï¼Œé˜²æ­¢è¶…è¿‡é¢„æœŸä½ç½® */
 	while (foreach_index < index-1)
 	{
 		startIndex = table[startIndex].NextIndex;
@@ -145,7 +145,7 @@ static BOOL InsertElementToStaticLinkTable(StaticLinkTable table[], int tableSiz
 	table[startIndex].NextIndex = new_index;
 	return true;
 }
-/* ¸ù¾İË÷Òı»ñÈ¡Ö¸¶¨Î»ÖÃÉÏµÄÖµ */
+/* æ ¹æ®ç´¢å¼•è·å–æŒ‡å®šä½ç½®ä¸Šçš„å€¼ */
 static Element GetElementFromStaticLinkTable(StaticLinkTable table[], int tableSize, int index)
 {
 	int startIndex = table[tableSize - 1].NextIndex,foreach_index = 0;
@@ -160,7 +160,7 @@ static Element GetElementFromStaticLinkTable(StaticLinkTable table[], int tableS
 	}
 	return table[startIndex].data;
 }
-/* É¾³ıÖ¸¶¨Ë÷ÒıµÄÔªËØ */
+/* åˆ é™¤æŒ‡å®šç´¢å¼•çš„å…ƒç´  */
 static BOOL RemoveElementFromStaticLinkTable(StaticLinkTable table[], int tableSize, int index)
 {
 	int beforeIndex = tableSize - 1, startIndex = table[tableSize - 1].NextIndex, foreach_index = 0;
@@ -185,7 +185,7 @@ static BOOL RemoveElementFromStaticLinkTable(StaticLinkTable table[], int tableS
 	}
 	return false;
 }
-/* ²éÕÒÖ¸¶¨ÔªËØËùÔÚË÷Òı */
+/* æŸ¥æ‰¾æŒ‡å®šå…ƒç´ æ‰€åœ¨ç´¢å¼• */
 static int FindIndexOfStaticTable(StaticLinkTable table[], int tableSize, Element e)
 {
 	int startIndex = table[tableSize - 1].NextIndex,foreach_index = 0;
